@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duecover</title>
+    <link  rel="stylesheet" href="../Deco-of-Pages/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script defer src="../Deco-of-Pages/script.js"></script>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="brand">DuE CoVeR</div>
+    <nav class="nav-center" aria-label="Main navigation">
+      <div class="menu" role="menubar">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+      </div>
+
+      <!-- Logout Section -->
+
+    <button onclick="logout()" class="logout">Logout</button>
+  <script>
+  function logout() {
+    localStorage.removeItem("loggedIn");
+    window.location.href = "login.html";
+   }
+   </script> 
+
+
+
+      <div class="search" role="search">
+        <input type="text" placeholder="Search...">
+        <button type="button">Search</button>
+      </div>
+
+      <button id="themeToggleNavbar" class="theme-btn">🌙</button>
+
+      <button class="hamburger" aria-label="Open menu" id="hambBtn">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- hidden drawer for mobile -->
+    <div class="nav-drawer" id="navDrawer" aria-hidden="true"> 
+      <button id="closeDrawer" style="background:transparent;border:none;color:#fff;font-size:1.1rem;margin-bottom:.5rem">Close ✕</button> 
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Services</a>
+      <a href="#">Contact</a>
+      <div style="margin-top:1rem">
+        <input type="text" placeholder="Search..." style="width:100%;padding:.5rem;border-radius:6px;border:none">
+
+      <button id="themeToggle" class="theme-btn" style="margin-left:1rem;">
+        🌙
+     </button>
+
+      </div>
+     </div> 
+
+     
+  </header>
+
+  <!-- PROMOTIONAL SECTION -->
+  <section class="promo"><a></a></section> 
+  
+<!-- DASHBOARD SUMMARY -->
+<div class="dashboard" id="dashboard">
+  <div class="dash-card1" type="button" onclick="showDetails('total')">
+    <span>Total Clients</span>
+    <strong id="totalClients">0</strong>
+  </div>
+
+  <div class="dash-card2" type="button" onclick="showDetails('completed')">
+    <span>Completed</span>
+    <strong id="completedClients">0</strong>
+  </div>
+
+  <div class="dash-card3" type="button" onclick="showDetails('pending')">
+    <span>Pending</span>
+    <strong id="pendingClients4">0</strong>
+  </div>
+
+  <div class="dash-card4" type="button" onclick="showDetails('amount')">
+    <span>Total Amount</span>
+    <strong id="totalAmount">₹0</strong>
+  </div>
+</div>
+
+    <!-- Detail section for dashboard -->
+<div id="detailSection" style="display:none;">
+  <h2 id="detailTitle"></h2>
+  <div id="detailContent"></div>
+</div>
+        <!-- DUE LIST -->
+<div id="dueList"></div>
+         
+    <!-- SEARCH & FILTER -->
+    <div class="client-controls">
+      <div class="search-section">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search clients by name..."
+        >
+        <button id="clearSearch" class="clear-btn">Clear</button>
+      </div>
+      <div class="filter-section">
+        <label for="sortFilter">Sort:</label>
+        <select id="sortFilter">
+          <option value="name">Name</option>
+          <option value="date-desc">Newest</option>
+          <option value="date-asc">Oldest</option>
+          <option value="amount-desc">High $</option>
+          <option value="amount-asc">Low $</option>
+        </select>
+      </div>
+    </div>
+ 
+           <!-- Main -->
+    <main class="main-content">
+
+      <!-- ADD CLIENT BUTTON -->
+    <form class="Add-clients" id="Add-clients"> 
+        <button type="button"  class="add-button" style="background:transparent;border:none;font-size:1rem;cursor:pointer;color:#3b3c3c"><i class="fas fa-plus"></i> Add Client's Name </button>       
+     </form> 
+
+    <div id="clientList"></div>
+
+
+
+         <!-- Client Modal -->
+    <div class="modal" id="clientModal">
+      <div class="modal-content"> 
+        <h2>Add Client</h2>
+
+       <form id="clientForm">
+        <label>
+            Attach Files
+            <input type="file" id="fileInput" multiple>
+        </label>
+        
+        <label>
+            Client Name
+            <input type="text" id="clientName" required>
+        </label>
+
+        <label>
+          About Work
+          <textarea rows="3" id="clientWork" required></textarea>
+        </label>
+
+        <label>
+          Amount
+          <input type="number" id="clientAmount" required>
+        </label>
+
+        <label>
+          Project Submit Date
+          <input type="date" id="clientDate" required>
+        </label>
+
+        <label>
+          Status
+          <select required id="clientStatus">
+            <option value="pending">Pending</option>
+            <option value="in-progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </label>
+
+        <div class="modal-actions">
+          <button type="button" class="cancel" id="closeModal">Cancel</button>
+          <button type="submit" class="save">Save Client</button>
+         </div>
+        </form>
+      </div>
+    </div>
+
+
+     <!-- Client Details Modal -->
+
+    <div class="modal" id="detailsModal">
+      <div class="modal-content">
+        <h2>Client Details</h2>
+
+        <form id="detailsForm">
+          <label>
+            Client Name
+            <input type="text" id="dName" required>
+          </label>
+
+          <label>
+            About Work
+            <textarea id="dWork" rows="3" required></textarea>
+          </label>
+
+          <label>
+            Amount
+            <input type="number" id="dAmount" required>
+          </label>
+
+          <label>
+            Submit Date
+            <input type="date" id="dDate" required>
+          </label>
+
+          <label>
+            Status
+            <select id="dStatus" required>
+              <option value="pending">Pending</option>
+              <option value="in-progress">In Progress</option>
+              <option value="completed">Completed</option>
+            </select>
+          </label>
+
+          <div class="modal-actions">
+            <button type="button" class="cancel" id="closeDetails">Close</button>
+            <button type="submit" class="save">Save Changes</button>
+          </div>
+
+          <div id="filePreview" class="file-preview"></div>
+
+        </form>
+      </div>
+    </div>
+</main>
+
+
+
+                <!-- FOOTER -->
+
+<footer class="footer">
+  <div class="footer-container">
+
+    <!-- Brand -->
+    <div class="footer-col">
+      <h2 class="footer-logo">DuE CoVeR</h2>
+      <p class="footer-desc">
+        Smart client & income management for Self employed persons.
+      </p>
+      <p class="footer-note">🇮🇳 Built for India · Secure & Reliable</p>
+    </div>
+
+    <!-- Product -->
+    <div class="footer-col accordion">
+      <button class="accordion-btn" aria-controls="product-content">Product</button>
+      <ul class="accordion-content" id="product-content">
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#Add-clients">Add Client</a></li>
+        <li><a href="#">Auto Invoice</a></li>
+        <li><a href="#">QR Payments</a></li>
+        <li><a href="#">Income Reports</a></li>
+      </ul>
+    </div>
+
+    <!-- Company -->
+    <div class="footer-col accordion">
+      <button class="accordion-btn" aria-controls="company-content">Company</button>
+      <ul class="accordion-content" id="company-content">
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Connect -->
+    <div class="footer-col accordion">
+      <button class="accordion-btn" aria-controls="connect-content">Connect</button>
+      <ul class="accordion-content" id="connect-content">
+        <li>Email: <a href="mailto:support@duecover.in">support@duecover.in</a></li>
+        <li class="socials">
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bottom">
+    <span>© 2025 DuE CoVeR. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Refund</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+
+
+<script>
+function loadDues() {
+  fetch("http://localhost:3000/dues")
+    .then(res => res.json())
+    .then(dues => {
+      const list = document.getElementById("dueList");
+      list.innerHTML = "";
+
+      if (dues.length === 0) {
+        list.innerHTML = "<p>No dues yet</p>";
+        return;
+      }
+
+      dues.forEach((due, index) => {
+        const item = document.createElement("div");
+        item.style.padding = "10px";
+        item.style.border = "1px solid #ccc";
+        item.style.marginBottom = "8px";
+
+        item.innerHTML = `
+          <strong>${index + 1}. ${due.title}</strong><br>
+          Amount: ₹${due.amount}
+        `;
+
+        list.appendChild(item);
+      });
+    });
+}
+
+// page load pe call
+loadDues();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>  
+
+
+
+
+</html>
+
+
+
+

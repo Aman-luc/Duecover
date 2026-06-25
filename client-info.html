@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duecover-2nd</title>
+    <link  rel="stylesheet" href="../Deco-of-Pages/client-info.css">
+</head>
+<body>
+    
+ <header class="navbar">
+    <div class="brand">DuE CoVeR</div>
+    <nav class="nav-center" aria-label="Main navigation">
+      <div class="menu" role="menubar">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+      </div>
+
+      <div class="search" role="search">
+        <input type="text" placeholder="Search...">
+        <button type="button">Search</button>
+      </div>
+
+      <button id="themeToggleNavbar" class="theme-btn">🌙</button>
+
+      <button class="hamburger" aria-label="Open menu" id="hambBtn">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+     <!-- hidden drawer for mobile -->
+    <div class="nav-drawer" id="navDrawer" aria-hidden="true"> 
+      <button id="closeDrawer" style="background:transparent;border:none;color:#fff;font-size:1.1rem;margin-bottom:.5rem">Close ✕</button> 
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Services</a>
+      <a href="#">Contact</a>
+      <div style="margin-top:1rem">
+        <input type="text" placeholder="Search..." style="width:100%;padding:.5rem;border-radius:6px;border:none">
+
+      <button id="themeToggle" class="theme-btn" style="margin-left:1rem;">
+        🌙
+     </button>
+
+      </div>
+     </div> 
+
+</header>
+
+<!-- Client Details Section -->
+
+<div class="clients-details">
+<h1 id="name"></h1>
+<p id="work"></p>
+<p id="amount"></p>
+<p id="date"></p>
+<p id="status"></p></div>
+
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+console.log("ID from URL:", id);
+
+const clients = JSON.parse(localStorage.getItem("clients")) || [];
+console.log("Clients from localStorage:", clients);
+
+const client = clients.find(c => c.id === Number(id));
+console.log("Found client:", client);
+
+if (client) {
+  document.getElementById('name').textContent = client.name;
+  document.getElementById('work').textContent = client.aboutWork;
+  document.getElementById('amount').textContent = "Amount: ₹" + client.amount;
+  document.getElementById('date').textContent = "Submit Date: " + client.submitDate;
+  document.getElementById('status').textContent = "Status: " + client.status;
+} else {
+  document.getElementById('name').textContent = "Client not found";
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
